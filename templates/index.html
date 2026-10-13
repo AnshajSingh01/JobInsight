@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JobInsight – Remote Tech Job Market Dashboard</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <!-- Plotly.js for interactive analytics charts -->
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header class="header">
+    <div class="container header-inner">
+      <div class="brand-wrapper">
+        <div class="brand-title-row">
+          <h1 class="brand-title">JobInsight</h1>
+          <span class="brand-badge">Mini-Project</span>
+        </div>
+        <p class="brand-subtitle">Remote Technology Job Market Analytics</p>
+      </div>
+
+      <div class="header-right">
+        <div class="attribution-pill">
+          <span>Data Source:</span>
+          <a href="{{ himalayas_site_url }}" target="_blank" rel="noopener noreferrer">Himalayas Remote Jobs API</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Intro Banner -->
+    <section class="intro-banner">
+      <div class="intro-text">
+        <h2>Job Market Intelligence Dashboard</h2>
+        <p>Collect, clean, analyze and visualize publicly available remote job listings from Himalayas. Providing data-driven insights into compensation transparency, role demands, and geographic distribution.</p>
+      </div>
+      <div class="status-indicator">
+        <span class="pulse-dot"></span>
+        <span>Live SQLite Dataset</span>
+      </div>
+    </section>
+
+    <!-- Top KPI Cards Grid -->
+    <section class="kpi-grid">
+      <div class="kpi-card" id="card-total-jobs">
+        <div class="kpi-title">Total Tech Jobs</div>
+        <div class="kpi-value" id="kpi-total-jobs">--</div>
+        <div class="kpi-subtext">Cleaned technology listings</div>
+      </div>
+
+      <div class="kpi-card emerald" id="card-companies">
+        <div class="kpi-title">Hiring Companies</div>
+        <div class="kpi-value" id="kpi-companies">--</div>
+        <div class="kpi-subtext">Unique remote employers</div>
+      </div>
+
+      <div class="kpi-card amber" id="card-salary-coverage">
+        <div class="kpi-title">Jobs With Salary Data</div>
+        <div class="kpi-value" id="kpi-salary">--</div>
+        <div class="kpi-subtext" id="kpi-salary-subtext">Compensation transparency</div>
+      </div>
+
+      <div class="kpi-card purple" id="card-top-category">
+        <div class="kpi-title">Top Category</div>
+        <div class="kpi-value" id="kpi-category">--</div>
+        <div class="kpi-subtext">Most frequent domain</div>
+      </div>
+
+      <div class="kpi-card teal" id="card-top-seniority">
+        <div class="kpi-title">Top Seniority</div>
+        <div class="kpi-value" id="kpi-seniority">--</div>
+        <div class="kpi-subtext">Dominant experience tier</div>
+      </div>
+    </section>
+
+    <!-- Key Market Insights (Phase 9) -->
+    <section class="insights-section" id="key-insights">
+      <div class="section-header-row">
+        <div>
+          <h2 class="section-heading">Key Insights</h2>
+          <p class="section-subheading">Data-driven observations from our collected sample of 47 verified remote technology job listings.</p>
+        </div>
+      </div>
+      <div class="insights-grid">
+        <div class="insight-card">
+          <div class="insight-icon" style="background: #eff6ff; color: #2563eb;">💻</div>
+          <div class="insight-content">
+            <h3 class="insight-title">Developer is the Largest Category</h3>
+            <p class="insight-desc">In our collected sample, <strong>20 of 47 jobs (42.6%)</strong> are Software Developer roles, leading all technical domains.</p>
+          </div>
+        </div>
+
+        <div class="insight-card">
+          <div class="insight-icon" style="background: #f5f3ff; color: #7c3aed;">🎯</div>
+          <div class="insight-content">
+            <h3 class="insight-title">Senior Roles Dominate Demand</h3>
+            <p class="insight-desc">In our collected sample, <strong>33 of 47 jobs (70.2%)</strong> target Senior-level candidates, showing high remote demand for experienced talent.</p>
+          </div>
+        </div>
+
+        <div class="insight-card">
+          <div class="insight-icon" style="background: #fef3c7; color: #b45309;">💵</div>
+          <div class="insight-content">
+            <h3 class="insight-title">Salary Disclosure Rate: 38.3%</h3>
+            <p class="insight-desc">In our collected sample, <strong>18 of 47 jobs</strong> disclose compensation upfront, while 29 roles omit salary details.</p>
+          </div>
+        </div>
+
+        <div class="insight-card">
+          <div class="insight-icon" style="background: #ecfdf5; color: #059669;">🏢</div>
+          <div class="insight-content">
+            <h3 class="insight-title">39 Unique Hiring Companies</h3>
+            <p class="insight-desc">In our collected sample, hiring is widely distributed across <strong>39 unique employers</strong>, indicating diverse market participation.</p>
+          </div>
+        </div>
+
+        <div class="insight-card">
+          <div class="insight-icon" style="background: #f0fdfa; color: #0d9488;">🌍</div>
+          <div class="insight-content">
+            <h3 class="insight-title">United States Leads Geography</h3>
+            <p class="insight-desc">In our collected sample, the United States accounts for 24 of 47 listings, making it the leading geographic restriction.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- India Focus Widget (Phase 9) -->
+    <section class="india-focus-section" id="india-focus">
+      <div class="india-focus-card">
+        <div class="india-focus-header">
+          <div class="india-flag-badge">
+            <span class="flag-icon">🇮🇳</span>
+            <span class="flag-text">India Focus</span>
+          </div>
+          <span class="india-status-pill">3 Open Roles in Sample</span>
+        </div>
+
+        <div class="india-focus-body">
+          <div class="india-metric-item">
+            <div class="india-metric-value">3</div>
+            <div class="india-metric-label">India-Eligible Jobs</div>
+          </div>
+          <div class="india-metric-item">
+            <div class="india-metric-value">Developer</div>
+            <div class="india-metric-label">Dominant Category (100%)</div>
+          </div>
+          <div class="india-metric-item">
+            <div class="india-metric-value">2 Senior / 1 Entry</div>
+            <div class="india-metric-label">Seniority Distribution</div>
+          </div>
+          <div class="india-metric-item">
+            <div class="india-metric-value">0 Disclosed</div>
+            <div class="india-metric-label">Salary Transparency (0/3)</div>
+          </div>
+        </div>
+
+        <div class="india-focus-footer">
+          <p class="india-focus-note">
+            In our collected sample, 3 remote roles specifically permit candidates residing in India (Vrinda International & BuildBear Labs).
+          </p>
+          <button id="btn-explore-india" class="btn-explore-india" type="button">
+            Explore India Listings &rarr;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Charts Grid -->
+    <section class="charts-grid">
+      <!-- 1. Jobs by Category -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <h3 class="chart-title">Jobs by Category</h3>
+            <p class="chart-desc">Distribution of roles across primary engineering domains</p>
+          </div>
+        </div>
+        <div class="chart-body" id="chart-category">
+          <div class="chart-spinner-overlay"><div class="spinner"></div><span>Loading chart...</span></div>
+        </div>
+      </div>
+
+      <!-- 2. Jobs by Seniority -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <h3 class="chart-title">Jobs by Seniority Level</h3>
+            <p class="chart-desc">Demand breakdown across career experience tiers</p>
+          </div>
+        </div>
+        <div class="chart-body" id="chart-seniority">
+          <div class="chart-spinner-overlay"><div class="spinner"></div><span>Loading chart...</span></div>
+        </div>
+      </div>
+
+      <!-- 3. Employment Type -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <h3 class="chart-title">Employment Contract Types</h3>
+            <p class="chart-desc">Share of Full Time vs Contractor remote positions</p>
+          </div>
+        </div>
+        <div class="chart-body" id="chart-employment">
+          <div class="chart-spinner-overlay"><div class="spinner"></div><span>Loading chart...</span></div>
+        </div>
+      </div>
+
+      <!-- 4. Top Hiring Locations -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <h3 class="chart-title">Top Hiring Locations</h3>
+            <p class="chart-desc">Geographic restrictions and worldwide candidate eligibility</p>
+          </div>
+        </div>
+        <div class="chart-body" id="chart-location">
+          <div class="chart-spinner-overlay"><div class="spinner"></div><span>Loading chart...</span></div>
+        </div>
+      </div>
+
+      <!-- 5. Top Companies -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <h3 class="chart-title">Top Hiring Employers</h3>
+            <p class="chart-desc">Companies with the highest volume of open remote positions</p>
+          </div>
+        </div>
+        <div class="chart-body" id="chart-companies">
+          <div class="chart-spinner-overlay"><div class="spinner"></div><span>Loading chart...</span></div>
+        </div>
+      </div>
+
+      <!-- 6. Annual Salary by Category -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <h3 class="chart-title">Annual Salary by Category (USD)</h3>
+            <p class="chart-desc">Average compensation based exclusively on disclosed annual salaries</p>
+          </div>
+        </div>
+        <div class="chart-body" id="chart-salary">
+          <div class="chart-spinner-overlay"><div class="spinner"></div><span>Loading chart...</span></div>
+        </div>
+      </div>
+
+      <!-- 7. Dataset Publication Snapshot (formerly "Jobs Over Time") -->
+      <div class="chart-card full-width">
+        <div class="chart-header">
+          <div>
+            <h3 class="chart-title">Dataset Publication Snapshot</h3>
+            <p class="chart-desc">All listings were collected in a single batch — publication date distribution shown honestly</p>
+          </div>
+        </div>
+        <div class="chart-body" id="chart-time">
+          <div class="chart-spinner-overlay"><div class="spinner"></div><span>Loading chart...</span></div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ====================================================================
+         Job Explorer Section (Phase 8)
+         ==================================================================== -->
+    <section class="explorer-section" id="job-explorer">
+      <div class="explorer-header">
+        <div>
+          <h2 class="explorer-title">Job Explorer</h2>
+          <p class="explorer-subtitle">Browse, search, and filter through all verified remote technology job listings.</p>
+        </div>
+        <div class="explorer-count-badge" id="explorer-count-badge">
+          Showing <span id="showing-count">0</span> of <span id="total-count">0</span> tech jobs
+        </div>
+      </div>
+
+      <!-- Search & Filters Toolbar -->
+      <div class="explorer-toolbar">
+        <!-- Search Input -->
+        <div class="search-box-wrapper">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="search-input" class="search-input" placeholder="Search jobs or companies..." autocomplete="off">
+        </div>
+
+        <!-- Filter Dropdowns -->
+        <div class="filter-controls">
+          <select id="filter-category" class="filter-select">
+            <option value="">All Categories</option>
+          </select>
+
+          <select id="filter-seniority" class="filter-select">
+            <option value="">All Seniorities</option>
+          </select>
+
+          <select id="filter-employment" class="filter-select">
+            <option value="">All Contract Types</option>
+          </select>
+
+          <select id="filter-location" class="filter-select">
+            <option value="">All Locations</option>
+          </select>
+
+          <button id="clear-filters-btn" class="btn-clear" type="button">Clear Filters</button>
+        </div>
+      </div>
+
+      <!-- Jobs Results Container -->
+      <div id="jobs-container" class="jobs-container">
+        <div class="spinner-wrapper"><div class="spinner"></div><span>Loading job listings...</span></div>
+      </div>
+
+      <!-- Pagination Toolbar -->
+      <div class="pagination-toolbar" id="pagination-toolbar">
+        <button id="prev-page-btn" class="btn-page" disabled>&larr; Previous</button>
+        <span class="page-indicator" id="page-indicator">Page 1 of 1</span>
+        <button id="next-page-btn" class="btn-page" disabled>Next &rarr;</button>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <p><strong>JobInsight</strong> &ndash; Web-Based Job Market Data Collection, Analysis &amp; Visualization Platform</p>
+        <p>Built with Python, FastAPI, SQLite, Pandas &amp; Plotly.js</p>
+      </div>
+      <div class="footer-right">
+        <p>Data provided by <a href="{{ himalayas_site_url }}" target="_blank" rel="noopener noreferrer">Himalayas Remote Jobs Public API</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Dashboard JavaScript Client -->
+  <script src="/static/js/dashboard.js"></script>
+</body>
+</html>
